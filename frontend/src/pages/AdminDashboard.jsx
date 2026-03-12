@@ -6,7 +6,8 @@ import { useAuthStore } from '../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5001');
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const socket = io(API_URL);
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -43,7 +44,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5001/api/products');
+      const { data } = await axios.get(`${API_URL}/api/products`);
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products');
@@ -55,7 +56,7 @@ const AdminDashboard = () => {
     setLoading(true);
     try {
       await axios.post(
-        'http://localhost:5001/api/products', 
+        `${API_URL}/api/products`, 
         { ...formData, price: Number(formData.price), stock: Number(formData.stock) },
         { headers: { Authorization: `Bearer ${token}` } }
       );

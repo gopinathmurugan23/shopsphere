@@ -21,8 +21,9 @@ const Cart = () => {
     }
 
     try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
       const { data } = await axios.post(
-        'http://localhost:5001/api/orders/checkout',
+        `${API_URL}/api/orders/checkout`,
         { cartItems },
         { headers: { Authorization: `Bearer ${token}` } }
       );

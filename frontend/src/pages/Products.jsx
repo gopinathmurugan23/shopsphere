@@ -4,7 +4,8 @@ import ProductCard from '../components/ProductCard';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { io } from 'socket.io-client';
 
-const socket = io('http://localhost:5001');
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+const socket = io(API_URL);
 
 const MOCK_PRODUCTS = [
   {
@@ -62,7 +63,7 @@ const Products = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get('http://localhost:5001/api/products');
+        const { data } = await axios.get(`${API_URL}/api/products`);
         if (data.length > 0) setProducts(data);
       } catch (error) {
         console.error('Failed to fetch products, using mock data');
